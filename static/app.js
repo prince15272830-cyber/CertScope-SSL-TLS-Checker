@@ -34,13 +34,17 @@ form.addEventListener("submit", async (event) => {
     setText("result-domain", r.domain);
     setText("days", r.days_remaining < 0 ? `${Math.abs(r.days_remaining)} days ago` : `${r.days_remaining} days`);
     setText("tls", r.tls_version);
-    setText("verified", r.certificate_verified ? "Verified" : "Not verified");
+    setText("verified", r.domain_verified ? "Match" : "Not verified");
     setText("issuer", r.issuer);
     setText("subject", r.subject);
     setText("valid-from", r.valid_from);
     setText("expiry", r.expiry_date);
     setText("cipher", `${r.cipher_suite} (${r.cipher_bits ?? "?"} bits)`);
-    setText("sans", (r.subject_alt_names || []).join(", ") || "Not provided");
+    const sans = Array.isArray(r.subject_alt_names) ? r.subject_alt_names : [];
+    const sanCount = Number.isInteger(r.subject_alt_names_count)
+      ? r.subject_alt_names_count
+      : sans.length;
+    setText("sans", sans.length ? `${sans.join(", ")} (${sanCount} total)` : "Not provided");
 
     const pill = document.getElementById("status-pill");
     pill.textContent = r.status.toUpperCase();

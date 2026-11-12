@@ -79,8 +79,16 @@ def decode_name(name_parts):
     return ", ".join(values) or "Not provided"
 
 
-def inspect_certificate(hostname: str):
+def _create_verification_context():
     context = ssl.create_default_context()
+    context.check_hostname = True
+    context.verify_mode = ssl.CERT_REQUIRED
+    context.hostname_checks_common_name = False
+    return context
+
+
+def inspect_certificate(hostname: str):
+    context = _create_verification_context()
     addresses = public_addresses(hostname)
     last_error = None
 
@@ -120,7 +128,9 @@ def inspect_certificate(hostname: str):
                     "tls_version": tls.version() or "Unknown",
                     "cipher_suite": cipher[0] if cipher else "Unknown",
                     "cipher_bits": cipher[2] if cipher else None,
-                    "subject_alt_names": sans[:30],
+                    "subject_alt_names": sans,
+                    "subject_alt_names_count": len(sans),
+                    "domain_verified": True,
                     "certificate_verified": True,
                 }
         except Exception as exc:
