@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Check public website SSL/TLS certificates, issuer, expiry date and TLS version.">
+  <title>CertScope — SSL/TLS Certificate Checker</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <div class="ambient ambient-one"></div><div class="ambient ambient-two"></div>
+  <header class="topbar">
+    <a class="brand" href="/"><span class="brand-icon">⌁</span><span>Cert<span class="brand-accent">Scope</span></span></a>
+    <div class="top-right"><span class="live-dot"></span><span>WEB SECURITY TOOL</span><a href="https://github.com/prince15272830-cyber/SSL-TLS-Certificate-Checker" target="_blank" rel="noopener">SOURCE CODE ↗</a></div>
+  </header>
+
+  <main class="shell">
+    <section class="hero">
+      <div class="eyebrow"><span class="eyebrow-line"></span> SSL / TLS CERTIFICATE ANALYSIS</div>
+      <h1>Know your site's<br><span>security status.</span></h1>
+      <p class="hero-copy">Inspect a website's HTTPS certificate, verify its validity, and check when it expires — all from one simple dashboard.</p>
+      <div class="trust-row"><span>✓ Certificate verification</span><span>✓ Expiry monitoring</span><span>✓ TLS protocol details</span></div>
+    </section>
+
+    <section class="scanner-card" aria-labelledby="scan-title">
+      <div class="card-heading">
+        <div><div class="mini-label">CERTIFICATE INSPECTOR</div><h2 id="scan-title">Scan a domain</h2></div>
+        <div class="secure-badge"><span>⌑</span> HTTPS CHECK</div>
+      </div>
+      <form id="scan-form">
+        <label for="domain">Website domain</label>
+        <div class="input-row">
+          <span class="input-prefix">https://</span>
+          <input id="domain" name="domain" type="text" placeholder="example.com" autocomplete="url" spellcheck="false" required>
+          <button id="scan-button" type="submit"><span class="button-text">Check certificate</span><span class="button-arrow">↗</span></button>
+        </div>
+        <p class="input-hint">Enter a public domain name. The checker uses HTTPS on port 443.</p>
+      </form>
+      <div id="loading" class="loading hidden"><span class="spinner"></span><span>Establishing secure connection and inspecting certificate…</span></div>
+      <div id="error" class="error-box hidden" role="alert"></div>
+      <section id="results" class="results hidden" aria-live="polite">
+        <div class="result-top">
+          <div><div class="mini-label">SCAN RESULT</div><h3 id="result-domain">example.com</h3></div>
+          <span id="status-pill" class="status-pill">VALID</span>
+        </div>
+        <div id="warning" class="warning"></div>
+        <div class="metrics">
+          <article class="metric"><span class="metric-label">DAYS REMAINING</span><strong id="days">—</strong><small>Until certificate expiry</small></article>
+          <article class="metric"><span class="metric-label">TLS VERSION</span><strong id="tls">—</strong><small>Negotiated protocol</small></article>
+          <article class="metric"><span class="metric-label">VERIFICATION</span><strong id="verified">—</strong><small>Certificate trust check</small></article>
+        </div>
+        <div class="details-heading">CERTIFICATE DETAILS</div>
+        <div class="details-grid">
+          <div class="detail"><span>ISSUER</span><strong id="issuer">—</strong></div>
+          <div class="detail"><span>SUBJECT</span><strong id="subject">—</strong></div>
+          <div class="detail"><span>VALID FROM</span><strong id="valid-from">—</strong></div>
+          <div class="detail"><span>EXPIRY DATE</span><strong id="expiry">—</strong></div>
+          <div class="detail"><span>CIPHER SUITE</span><strong id="cipher">—</strong></div>
+          <div class="detail"><span>SUBJECT ALT NAMES</span><strong id="sans">—</strong></div>
+        </div>
+      </section>
+    </section>
+
+    <section class="features">
+      <div class="section-kicker">WHAT YOU CAN CHECK</div><h2>Certificate visibility.<br><span>Without the complexity.</span></h2>
+      <div class="feature-grid">
+        <article class="feature"><div class="feature-icon">◈</div><h3>Issuer details</h3><p>See the certificate authority that issued the website's certificate.</p></article>
+        <article class="feature"><div class="feature-icon">◷</div><h3>Expiry tracking</h3><p>View the expiry date and how many days of validity remain.</p></article>
+        <article class="feature"><div class="feature-icon">⌁</div><h3>TLS protocol</h3><p>Identify the TLS version and cipher suite negotiated by the server.</p></article>
+      </div>
+    </section>
+
+    <footer><div class="footer-brand">CertScope <span>·</span> SSL/TLS Certificate Checker</div><div>Developed by <strong>Prince E S</strong> · BCA Cybersecurity Project</div><p>Educational tool. A certificate check is not a complete website security audit.</p></footer>
+  </main>
+  <script src="{{ url_for('static', filename='app.js') }}"></script>
+</body>
+</html>
